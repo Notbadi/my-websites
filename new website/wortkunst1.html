@@ -1,0 +1,830 @@
+<title>Wortkunst</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Mulish:wght@400;500;600;700&display=swap">
+<style>
+  :root{
+    --blush-50:#fdf2ee;
+    --blush-100:#fbe6de;
+    --blush-200:#f7d3c6;
+    --blush-300:#f2bfb0;
+    --cream:#fdf4f0;
+    --card:#fef7f3;
+    --ink:#1b2130;
+    --ink-2:#2b3242;
+    --body:#5c5560;
+    --body-soft:#7a7580;
+    --line:rgba(27,33,48,.10);
+    --white:#ffffff;
+    --green:#1ea672;
+    --gold:#f5b301;
+    --pink-a:#f9a8d4;
+    --pink-b:#f26fb2;
+    --blue-a:#5e9bf6;
+    --blue-b:#28d0d8;
+    --shadow-sm:0 4px 16px rgba(120,60,50,.08);
+    --shadow-md:0 18px 44px -14px rgba(120,55,45,.28);
+    --shadow-lg:0 30px 70px -20px rgba(110,50,45,.35);
+    --font-display:'Poppins','Segoe UI',sans-serif;
+    --font-body:'Mulish','Segoe UI',sans-serif;
+    --maxw:1160px;
+    --radius:26px;
+  }
+
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{animation-duration:.001ms!important;transition-duration:.001ms!important}}
+  body{
+    font-family:var(--font-body);
+    background:var(--blush-200);
+    color:var(--body);
+    line-height:1.7;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3,h4{font-family:var(--font-display);color:var(--ink);line-height:1.12;letter-spacing:-.02em;font-weight:700;text-wrap:balance}
+  a{color:inherit;text-decoration:none}
+  img{display:block;max-width:100%}
+  section{scroll-margin-top:84px}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 clamp(20px,5vw,40px)}
+
+  /* buttons */
+  .btn{
+    display:inline-flex;align-items:center;justify-content:center;gap:10px;
+    font-family:var(--font-display);font-weight:600;font-size:1rem;
+    padding:16px 30px;border-radius:999px;border:0;cursor:pointer;
+    transition:transform .18s ease,box-shadow .18s ease,background .18s ease;
+    text-align:center;
+  }
+  .btn svg{width:18px;height:18px}
+  .btn-dark{background:linear-gradient(120deg,#232a3d,#0f1421);color:#fff;box-shadow:var(--shadow-md)}
+  .btn-dark:hover{transform:translateY(-2px);box-shadow:var(--shadow-lg)}
+  .btn-light{background:var(--cream);color:var(--ink);box-shadow:var(--shadow-sm)}
+  .btn-light:hover{transform:translateY(-2px);box-shadow:0 16px 34px -12px rgba(120,55,45,.3)}
+  .btn-blue{background:linear-gradient(120deg,var(--blue-a),var(--blue-b));color:#fff;box-shadow:0 14px 30px -10px rgba(40,150,190,.5)}
+  .btn-blue:hover{transform:translateY(-2px)}
+
+  .eyebrow{
+    font-family:var(--font-display);font-weight:600;font-size:.78rem;
+    letter-spacing:.16em;text-transform:uppercase;color:var(--pink-b);
+  }
+
+  /* ---------- NAV ---------- */
+  header.nav{
+    position:sticky;top:0;z-index:50;
+    background:rgba(253,244,240,.82);
+    backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+    border-bottom:1px solid transparent;
+    transition:box-shadow .3s ease,border-color .3s ease;
+  }
+  header.nav.stuck{box-shadow:0 10px 30px -18px rgba(120,55,45,.5);border-bottom-color:var(--line)}
+  .nav-inner{max-width:var(--maxw);margin:0 auto;padding:14px clamp(20px,5vw,40px);display:flex;align-items:center;justify-content:space-between;gap:20px}
+  .brand{display:flex;align-items:center;gap:12px;font-family:var(--font-display);font-weight:700;font-size:1.3rem;color:var(--ink)}
+  .brand .mark{
+    width:38px;height:38px;border-radius:12px;flex-shrink:0;
+    background:linear-gradient(135deg,var(--pink-a),var(--pink-b));
+    display:grid;place-items:center;color:#fff;
+    transform:rotate(-8deg);box-shadow:0 8px 18px -6px rgba(230,110,170,.7);
+  }
+  .brand .mark svg{width:20px;height:20px}
+  .nav-links{display:none;align-items:center;gap:6px}
+  .nav-links a{padding:9px 14px;border-radius:10px;font-family:var(--font-display);font-weight:500;font-size:.94rem;color:var(--ink-2);transition:background .15s,color .15s}
+  .nav-links a:hover{background:rgba(242,111,178,.12);color:var(--pink-b)}
+  .nav-cta{display:none}
+  .burger{
+    width:44px;height:44px;border-radius:12px;border:1px solid var(--line);
+    background:var(--cream);display:grid;place-items:center;cursor:pointer;color:var(--ink);
+  }
+  .burger svg{width:22px;height:22px}
+  @media(min-width:940px){
+    .nav-links{display:flex}
+    .nav-cta{display:inline-flex}
+    .burger{display:none}
+  }
+  .mobile-menu{
+    display:none;flex-direction:column;gap:2px;
+    padding:8px clamp(20px,5vw,40px) 20px;
+    background:var(--cream);border-bottom:1px solid var(--line);
+  }
+  .mobile-menu.open{display:flex}
+  .mobile-menu a{padding:13px 6px;font-family:var(--font-display);font-weight:500;color:var(--ink-2);border-bottom:1px solid var(--line)}
+  .mobile-menu a:last-child{border-bottom:0}
+
+  /* ---------- HERO ---------- */
+  .hero{
+    position:relative;overflow:hidden;
+    background:radial-gradient(120% 90% at 50% 0%,var(--blush-100) 0%,var(--blush-200) 55%,var(--blush-300) 100%);
+    text-align:center;
+    padding:clamp(56px,10vw,104px) 0 clamp(60px,9vw,96px);
+  }
+  .hero::before,.hero::after{content:"";position:absolute;border-radius:50%;filter:blur(70px);opacity:.55;pointer-events:none}
+  .hero::before{width:340px;height:340px;background:var(--pink-a);top:-90px;left:-90px}
+  .hero::after{width:300px;height:300px;background:#ffd9c4;bottom:-100px;right:-70px}
+  .hero .wrap{position:relative}
+  .hero .badge{
+    display:inline-flex;align-items:center;gap:9px;
+    background:rgba(255,255,255,.6);border:1px solid rgba(255,255,255,.8);
+    padding:8px 16px;border-radius:999px;font-size:.85rem;font-weight:600;
+    font-family:var(--font-display);color:var(--ink-2);margin-bottom:30px;
+  }
+  .hero .badge .dot{width:8px;height:8px;border-radius:50%;background:var(--green)}
+  .hero h1{
+    font-size:clamp(3.1rem,11vw,6rem);
+    letter-spacing:-.03em;margin-bottom:18px;
+  }
+  .hero .lede{font-family:var(--font-display);font-weight:500;font-size:clamp(1.1rem,2.6vw,1.5rem);color:var(--ink-2);margin-bottom:16px}
+  .hero .lede b{font-weight:700;color:var(--ink)}
+  .hero p.sub{max-width:36ch;margin:0 auto 38px;font-size:clamp(1rem,2vw,1.15rem);color:var(--body)}
+  .hero-actions{display:flex;flex-wrap:wrap;gap:16px;justify-content:center}
+  @media(max-width:520px){.hero-actions .btn{width:100%}}
+  .hero-trust{margin-top:34px;font-size:.9rem;color:var(--body-soft);display:inline-flex;align-items:center;gap:8px}
+  .hero-trust svg{width:16px;height:16px;color:var(--green)}
+
+  /* ---------- SERVICES ---------- */
+  .section{padding:clamp(70px,12vw,120px) 0}
+  .services{background:linear-gradient(180deg,var(--blush-300) 0%,var(--blush-200) 100%)}
+  .section-head{text-align:center;max-width:620px;margin:0 auto clamp(44px,7vw,68px)}
+  .section-head h2{font-size:clamp(2rem,5.5vw,3.1rem);margin:14px 0 16px}
+  .section-head p{font-size:1.08rem;color:var(--body)}
+  .card-grid{display:grid;grid-template-columns:1fr;gap:22px}
+  @media(min-width:640px){.card-grid{grid-template-columns:repeat(2,1fr)}}
+  @media(min-width:980px){.card-grid{grid-template-columns:repeat(3,1fr)}}
+  .service{
+    background:var(--card);border-radius:var(--radius);padding:32px 30px;
+    box-shadow:var(--shadow-sm);border:1px solid rgba(255,255,255,.6);
+    display:flex;flex-direction:column;
+    transition:transform .2s ease,box-shadow .2s ease;
+  }
+  .service:hover{transform:translateY(-6px);box-shadow:var(--shadow-md)}
+  .service .ico{
+    width:52px;height:52px;border-radius:15px;display:grid;place-items:center;
+    background:linear-gradient(135deg,rgba(249,168,212,.25),rgba(242,111,178,.16));
+    color:var(--pink-b);margin-bottom:20px;
+  }
+  .service .ico svg{width:26px;height:26px}
+  .service h3{font-size:1.3rem;font-weight:600;margin-bottom:10px}
+  .service .desc{font-size:.97rem;color:var(--body);margin-bottom:18px}
+  .service ul{list-style:none;display:flex;flex-direction:column;gap:10px;margin-bottom:22px}
+  .service li{display:flex;align-items:center;gap:10px;font-size:.95rem;color:var(--ink-2)}
+  .service li svg{width:18px;height:18px;color:var(--green);flex-shrink:0}
+  .more{margin-top:auto;display:inline-flex;align-items:center;gap:6px;font-family:var(--font-display);font-weight:600;font-size:.95rem;color:var(--ink)}
+  .more svg{width:16px;height:16px;transition:transform .18s ease}
+  .service:hover .more svg{transform:translateX(4px)}
+
+  /* ---------- ABOUT ---------- */
+  .about{background:linear-gradient(180deg,var(--blush-200) 0%,var(--blush-300) 100%)}
+  .about-grid{display:grid;grid-template-columns:1fr;gap:44px;align-items:center;max-width:var(--maxw);margin:0 auto}
+  @media(min-width:900px){.about-grid{grid-template-columns:1.1fr .9fr;gap:64px}}
+  .about h2{font-size:clamp(2rem,5.5vw,3.1rem);margin-bottom:22px}
+  .about p{margin-bottom:18px;font-size:1.05rem;color:var(--ink-2)}
+  .about .stats{display:flex;gap:38px;margin-top:32px;flex-wrap:wrap}
+  .stat{display:flex;flex-direction:column;align-items:flex-start;gap:10px}
+  .stat .badge-ico{width:56px;height:56px;border-radius:50%;display:grid;place-items:center;color:#fff}
+  .stat .badge-ico svg{width:24px;height:24px}
+  .stat.exp .badge-ico{background:linear-gradient(135deg,#2b3242,#0f1421)}
+  .stat.cli .badge-ico{background:linear-gradient(135deg,var(--pink-a),var(--pink-b))}
+  .stat b{font-family:var(--font-display);font-size:1.5rem;color:var(--ink);line-height:1}
+  .stat span{font-size:.9rem;color:var(--body)}
+  .about-card{
+    background:linear-gradient(150deg,var(--pink-a),var(--pink-b));
+    border-radius:32px;padding:64px 32px;text-align:center;color:#fff;
+    box-shadow:var(--shadow-lg);
+  }
+  .about-card .pen{
+    width:86px;height:86px;margin:0 auto 22px;border-radius:24px;
+    display:grid;place-items:center;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.35);
+  }
+  .about-card .pen svg{width:42px;height:42px;color:#fff}
+  .about-card h3{color:#fff;font-size:1.9rem;margin-bottom:6px}
+  .about-card span{font-family:var(--font-body);font-size:1rem;color:rgba(255,255,255,.9)}
+
+  /* ---------- PORTFOLIO ---------- */
+  .portfolio{background:linear-gradient(180deg,var(--blush-300) 0%,var(--blush-200) 100%)}
+  .port-grid{display:grid;grid-template-columns:1fr;gap:24px}
+  @media(min-width:640px){.port-grid{grid-template-columns:repeat(2,1fr)}}
+  @media(min-width:980px){.port-grid{grid-template-columns:repeat(3,1fr)}}
+  .port{
+    background:var(--card);border-radius:22px;overflow:hidden;box-shadow:var(--shadow-sm);
+    border:1px solid rgba(255,255,255,.6);display:flex;flex-direction:column;
+    transition:transform .2s ease,box-shadow .2s ease;
+  }
+  .port:hover{transform:translateY(-6px);box-shadow:var(--shadow-md)}
+  .port .thumb{position:relative;aspect-ratio:16/10;display:grid;place-items:center;color:rgba(255,255,255,.9)}
+  .port .thumb svg{width:46px;height:46px;opacity:.85}
+  .port .tag{
+    position:absolute;top:14px;left:14px;background:#fff;color:var(--pink-b);
+    font-family:var(--font-display);font-weight:600;font-size:.75rem;
+    padding:5px 12px;border-radius:999px;box-shadow:var(--shadow-sm);
+  }
+  .port .body{padding:22px 22px 26px}
+  .port h3{font-size:1.15rem;font-weight:600;margin-bottom:8px}
+  .port p{font-size:.92rem;color:var(--body)}
+
+  /* ---------- REVIEWS ---------- */
+  .reviews{background:linear-gradient(180deg,var(--blush-200) 0%,var(--blush-100) 100%)}
+  .rating-card{
+    background:#fff;border-radius:24px;padding:34px;max-width:560px;margin:0 auto clamp(40px,6vw,56px);
+    box-shadow:var(--shadow-md);
+  }
+  .rating-top{display:flex;justify-content:space-between;align-items:flex-start;gap:20px;flex-wrap:wrap}
+  .rating-top h3{font-size:1.35rem;font-weight:600}
+  .rating-top .sub{font-size:.9rem;color:var(--body-soft)}
+  .rating-score{text-align:right}
+  .rating-score b{font-family:var(--font-display);font-size:2.6rem;color:var(--ink);line-height:1;display:block}
+  .stars{display:inline-flex;gap:2px;color:var(--gold)}
+  .stars svg{width:18px;height:18px;fill:currentColor}
+  .rating-score .count{font-size:.85rem;color:var(--body-soft);margin-top:4px}
+  .dist{margin-top:24px;display:flex;flex-direction:column;gap:9px}
+  .dist-row{display:flex;align-items:center;gap:12px;font-size:.85rem;color:var(--body-soft)}
+  .dist-row .bar{flex:1;height:9px;border-radius:999px;background:#ececec;overflow:hidden}
+  .dist-row .bar i{display:block;height:100%;background:var(--gold);border-radius:999px}
+  .review-grid{columns:3 300px;column-gap:22px}
+  .review{
+    break-inside:avoid;margin-bottom:22px;background:#fff;border-radius:20px;padding:24px;
+    box-shadow:var(--shadow-sm);
+  }
+  .review .who{display:flex;align-items:center;gap:12px;margin-bottom:6px}
+  .review .av{width:42px;height:42px;border-radius:50%;flex-shrink:0;display:grid;place-items:center;color:#fff;font-family:var(--font-display);font-weight:700;font-size:.95rem}
+  .review .who b{font-family:var(--font-display);font-size:.98rem;color:var(--ink);display:block}
+  .review .who .stars{color:var(--gold)}
+  .review .who .stars svg{width:14px;height:14px}
+  .review .meta{font-size:.78rem;color:var(--body-soft);margin-left:6px}
+  .review p{font-size:.92rem;color:var(--ink-2);margin-top:12px}
+  .reviews .center{text-align:center;margin-top:14px}
+
+  /* ---------- CONTACT ---------- */
+  .contact{background:linear-gradient(180deg,var(--blush-100) 0%,var(--blush-200) 100%)}
+  .contact-grid{display:grid;grid-template-columns:1fr;gap:44px;max-width:var(--maxw);margin:0 auto}
+  @media(min-width:900px){.contact-grid{grid-template-columns:1.15fr .85fr;gap:60px}}
+  .contact h3{font-size:1.4rem;font-weight:600;margin-bottom:22px}
+  .form-field{margin-bottom:18px}
+  .form-field label{display:block;font-family:var(--font-display);font-weight:600;font-size:.85rem;color:var(--ink-2);margin-bottom:8px}
+  .form-field input,.form-field select,.form-field textarea{
+    width:100%;padding:14px 16px;border-radius:14px;border:1px solid var(--line);
+    background:#fff;font-family:var(--font-body);font-size:1rem;color:var(--ink);
+  }
+  .form-field textarea{min-height:130px;resize:vertical}
+  .form-field input:focus,.form-field select:focus,.form-field textarea:focus{outline:2px solid var(--pink-b);outline-offset:1px;border-color:transparent}
+  .form-note{margin-top:14px;font-size:.85rem;color:var(--green);display:none;align-items:center;gap:8px}
+  .form-note.show{display:flex}
+  .form-note svg{width:16px;height:16px}
+  .contact-info{display:flex;flex-direction:column;gap:20px}
+  .info-item{display:flex;gap:14px;align-items:flex-start}
+  .info-item .ico{width:44px;height:44px;border-radius:12px;background:var(--card);display:grid;place-items:center;color:var(--pink-b);flex-shrink:0}
+  .info-item .ico svg{width:20px;height:20px}
+  .info-item b{font-family:var(--font-display);font-size:.95rem;color:var(--ink);display:block}
+  .info-item span{font-size:.95rem;color:var(--body)}
+  .zoom-box{margin-top:8px;background:var(--card);border-radius:20px;padding:26px;box-shadow:var(--shadow-sm)}
+  .zoom-box h4{font-family:var(--font-display);font-size:1.1rem;color:var(--ink);margin-bottom:8px}
+  .zoom-box p{font-size:.92rem;color:var(--body);margin-bottom:18px}
+
+  /* ---------- FOOTER ---------- */
+  footer.site{background:#0d1119;color:#aeb4c2;padding:clamp(56px,9vw,84px) 0 34px}
+  .foot-grid{display:grid;grid-template-columns:1fr;gap:38px}
+  @media(min-width:760px){.foot-grid{grid-template-columns:1.6fr 1fr 1fr 1fr}}
+  footer.site .brand{color:#fff;margin-bottom:16px}
+  footer.site .about-txt{font-size:.92rem;max-width:34ch;color:#8b93a3}
+  footer.site h4{font-family:var(--font-display);color:#fff;font-size:.95rem;margin-bottom:16px;letter-spacing:0}
+  footer.site ul{list-style:none;display:flex;flex-direction:column;gap:10px}
+  footer.site ul a{font-size:.9rem;color:#9aa1b1;transition:color .15s}
+  footer.site ul a:hover{color:#fff}
+  .foot-social{display:flex;gap:12px;margin-top:12px}
+  .foot-social a{width:40px;height:40px;border-radius:12px;display:grid;place-items:center;color:#fff}
+  .foot-social a svg{width:18px;height:18px}
+  .foot-contact-icons{display:flex;gap:12px;margin-bottom:22px}
+  .foot-contact-icons a{width:40px;height:40px;border-radius:12px;display:grid;place-items:center;color:#fff}
+  .foot-contact-icons a svg{width:18px;height:18px}
+  .foot-bottom{border-top:1px solid rgba(255,255,255,.1);margin-top:44px;padding-top:24px;font-size:.85rem;color:#7c8494;text-align:center}
+
+  /* ---------- CHAT WIDGET ---------- */
+  .chat-fab{
+    position:fixed;right:20px;bottom:20px;z-index:60;
+    width:60px;height:60px;border-radius:50%;border:0;cursor:pointer;
+    background:linear-gradient(135deg,var(--pink-a),var(--pink-b));
+    box-shadow:0 16px 34px -10px rgba(230,110,170,.7);
+    display:grid;place-items:center;color:#fff;
+    transition:transform .18s ease;
+  }
+  .chat-fab:hover{transform:scale(1.06)}
+  .chat-fab svg{width:26px;height:26px}
+  .chat-panel{
+    position:fixed;right:20px;bottom:92px;z-index:60;
+    width:min(340px,calc(100vw - 40px));
+    background:#fff;border-radius:20px;overflow:hidden;
+    box-shadow:var(--shadow-lg);
+    display:none;flex-direction:column;
+  }
+  .chat-panel.open{display:flex}
+  .chat-head{background:linear-gradient(120deg,var(--pink-a),var(--pink-b));color:#fff;padding:16px 18px;display:flex;align-items:center;gap:12px}
+  .chat-head .av{width:38px;height:38px;border-radius:50%;background:rgba(255,255,255,.25);display:grid;place-items:center}
+  .chat-head .av svg{width:20px;height:20px}
+  .chat-head b{font-family:var(--font-display);font-size:.95rem;display:block}
+  .chat-head span{font-size:.78rem;opacity:.9}
+  .chat-body{padding:16px;display:flex;flex-direction:column;gap:12px;max-height:280px;overflow-y:auto;background:var(--blush-50)}
+  .chat-msg{background:#fff;border-radius:14px;padding:12px 14px;font-size:.9rem;color:var(--ink-2);box-shadow:var(--shadow-sm);max-width:85%}
+  .chat-msg.me{background:linear-gradient(120deg,var(--pink-a),var(--pink-b));color:#fff;align-self:flex-end}
+  .chat-quick{display:flex;flex-wrap:wrap;gap:8px;padding:0 16px 12px;background:var(--blush-50)}
+  .chat-quick a{font-family:var(--font-display);font-weight:600;font-size:.8rem;padding:8px 12px;border-radius:999px;background:#fff;color:var(--pink-b);box-shadow:var(--shadow-sm)}
+  .chat-input{display:flex;gap:8px;padding:12px 14px;border-top:1px solid var(--line)}
+  .chat-input input{flex:1;border:1px solid var(--line);border-radius:999px;padding:10px 14px;font-family:var(--font-body);font-size:.9rem}
+  .chat-input input:focus{outline:2px solid var(--pink-b);outline-offset:1px}
+  .chat-input button{width:40px;height:40px;border-radius:50%;border:0;cursor:pointer;background:linear-gradient(135deg,var(--pink-a),var(--pink-b));color:#fff;display:grid;place-items:center}
+  .chat-input button svg{width:18px;height:18px}
+  .chat-hint{font-size:.72rem;color:var(--body-soft);text-align:center;padding:0 14px 12px}
+
+  a:focus-visible,button:focus-visible{outline:2px solid var(--pink-b);outline-offset:2px}
+</style>
+
+<header class="nav" id="nav">
+  <div class="nav-inner">
+    <a href="#top" class="brand">
+      <span class="mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19l7-7 3 3-7 7-3-3z"/><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"/><path d="M2 2l7.586 7.586"/><circle cx="11" cy="11" r="2"/></svg></span>
+      Wortkunst
+    </a>
+    <nav class="nav-links">
+      <a href="#top">Start</a>
+      <a href="#leistungen">Leistungen</a>
+      <a href="#ueber-mich">Über mich</a>
+      <a href="#portfolio">Portfolio</a>
+      <a href="#bewertungen">Bewertungen</a>
+      <a href="#kontakt">Kontakt</a>
+    </nav>
+    <a href="#kontakt" class="btn btn-dark nav-cta" style="padding:11px 22px;font-size:.92rem">Kontakt aufnehmen</a>
+    <button class="burger" id="burger" aria-label="Menü öffnen" aria-expanded="false">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+  </div>
+  <nav class="mobile-menu" id="mobileMenu">
+    <a href="#top">Start</a>
+    <a href="#leistungen">Leistungen</a>
+    <a href="#ueber-mich">Über mich</a>
+    <a href="#portfolio">Portfolio</a>
+    <a href="#bewertungen">Bewertungen</a>
+    <a href="#kontakt">Kontakt</a>
+  </nav>
+</header>
+
+<main id="top">
+
+  <section class="hero">
+    <div class="wrap">
+      <h1>Wortkunst</h1>
+      <p class="lede">Professionelle Texte von <b>Nina Haberlandt</b></p>
+      <p class="sub">Kreative Texterin, Autorin &amp; Lektorin mit Leidenschaft für Worte, die bewegen und überzeugen.</p>
+      <div class="hero-actions">
+        <a href="#kontakt" class="btn btn-dark">Jetzt Kontakt aufnehmen
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </a>
+        <a href="#leistungen" class="btn btn-light">Leistungen entdecken</a>
+      </div>
+      <div class="hero-trust">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        Jedes Projekt entsteht mit größter Sorgfalt – und ohne den Einsatz von KI.
+      </div>
+    </div>
+  </section>
+
+  <section class="section services" id="leistungen">
+    <div class="wrap">
+      <div class="section-head">
+        <h2>Meine Leistungen</h2>
+        <p>Von SEO-Texten bis zur Kolloquiumsvorbereitung – ich unterstütze dich bei all deinen Textprojekten.</p>
+      </div>
+      <div class="card-grid">
+
+        <article class="service">
+          <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></div>
+          <h3>Akademisches Korrekturlesen</h3>
+          <p class="desc">Professionelle Korrektur wissenschaftlicher Arbeiten für perfekte Ergebnisse.</p>
+          <ul>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>Hausarbeiten</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>Projektarbeiten</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>Bachelor- &amp; Masterarbeiten</li>
+          </ul>
+          <a href="#kontakt" class="more">Mehr erfahren <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg></a>
+        </article>
+
+        <article class="service">
+          <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.24 12.24a6 6 0 0 0-8.49-8.49L5 10.5V19h8.5z"/><line x1="16" y1="8" x2="2" y2="22"/><line x1="17.5" y1="15" x2="9" y2="15"/></svg></div>
+          <h3>Akademisches Lektorat</h3>
+          <p class="desc">Umfassende Überarbeitung wissenschaftlicher Texte für höchste Qualität.</p>
+          <ul>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>Stilistische Verbesserung</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>Strukturoptimierung</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>Sprachliche Präzision</li>
+          </ul>
+          <a href="#kontakt" class="more">Mehr erfahren <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg></a>
+        </article>
+
+        <article class="service">
+          <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19l7-7 3 3-7 7-3-3z"/><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"/><path d="M2 2l7.586 7.586"/><circle cx="11" cy="11" r="2"/></svg></div>
+          <h3>Ghostwriting</h3>
+          <p class="desc">Diskrete und professionelle Unterstützung bei wissenschaftlichen Arbeiten.</p>
+          <ul>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>Hausarbeiten</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>Projektarbeiten</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>Bachelor- &amp; Masterarbeiten</li>
+          </ul>
+          <a href="#kontakt" class="more">Mehr erfahren <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg></a>
+        </article>
+
+        <article class="service">
+          <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg></div>
+          <h3>Vorbereitung auf das Bachelor-Kolloquium</h3>
+          <p class="desc">Selbstsichere Präsentation deiner Arbeit – gemeinsam schaffen wir das.</p>
+          <ul>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>Präsentationsaufbau</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>Rhetorik-Training</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>Prüfungssimulation</li>
+          </ul>
+          <a href="#kontakt" class="more">Mehr erfahren <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg></a>
+        </article>
+
+        <article class="service">
+          <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div>
+          <h3>Wissenschaftliche Begleitung via Zoom</h3>
+          <p class="desc">Persönliche Online-Betreuung für deine wissenschaftlichen Projekte.</p>
+          <ul>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>Hausarbeiten</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>Projektarbeiten</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>Bachelor- &amp; Masterarbeiten</li>
+          </ul>
+          <a href="#kontakt" class="more">Mehr erfahren <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg></a>
+        </article>
+
+        <article class="service">
+          <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div>
+          <h3>Texten</h3>
+          <p class="desc">Professionelle Texte jeglicher Art – von Reden bis SEO-Texten.</p>
+          <ul>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>Reden</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>SEO-Texte</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>Individuelle Textprojekte</li>
+          </ul>
+          <a href="#kontakt" class="more">Mehr erfahren <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg></a>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <section class="section about" id="ueber-mich">
+    <div class="wrap">
+      <div class="about-grid">
+        <div>
+          <h2>Über mich</h2>
+          <p>Hi, ich bin Nina Haberlandt! Als leidenschaftliche Texterin und Autorin verwandle ich deine Ideen in kraftvolle Worte. Mit meiner Erfahrung in SEO, Lektorat und kreativem Schreiben helfe ich dir dabei, deine Botschaft authentisch und überzeugend zu kommunizieren.</p>
+          <p>Meine Mission ist es, durch präzise und lebendige Texte deine Ziele zu erreichen – sei es mehr Traffic für deine Website, eine perfekte Abschlussarbeit oder ein erfolgreiches Buchprojekt.</p>
+          <div class="stats">
+            <div class="stat exp">
+              <span class="badge-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/></svg></span>
+              <b>5+ Jahre</b>
+              <span>Erfahrung</span>
+            </div>
+            <div class="stat cli">
+              <span class="badge-ico"><svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></span>
+              <b>200+</b>
+              <span>Zufriedene Kund:innen</span>
+            </div>
+          </div>
+        </div>
+        <div class="about-card">
+          <div class="pen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19l7-7 3 3-7 7-3-3z"/><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"/><path d="M2 2l7.586 7.586"/><circle cx="11" cy="11" r="2"/></svg></div>
+          <h3>Wortkunst</h3>
+          <span>Nina Haberlandt</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section portfolio" id="portfolio">
+    <div class="wrap">
+      <div class="section-head">
+        <h2>Portfolio</h2>
+        <p>Einblicke in meine Arbeit – von SEO-Texten bis zu wissenschaftlichen Publikationen.</p>
+      </div>
+      <div class="port-grid">
+
+        <article class="port">
+          <div class="thumb" style="background:linear-gradient(140deg,#f7a8c4,#f26fb2)">
+            <span class="tag">SEO &amp; Content</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+          </div>
+          <div class="body">
+            <h3>Blogserie für ein SaaS-Startup</h3>
+            <p>12 SEO-optimierte Fachartikel – über 140 % mehr organischer Traffic in sechs Monaten.</p>
+          </div>
+        </article>
+
+        <article class="port">
+          <div class="thumb" style="background:linear-gradient(140deg,#8b93c9,#5b6bb0)">
+            <span class="tag">Wissenschaft</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+          </div>
+          <div class="body">
+            <h3>Masterarbeit Sozialwissenschaften</h3>
+            <p>Lektorat &amp; Strukturoptimierung über 90 Seiten – Abschlussnote 1,3.</p>
+          </div>
+        </article>
+
+        <article class="port">
+          <div class="thumb" style="background:linear-gradient(140deg,#f6b98a,#ef8f5e)">
+            <span class="tag">Website-Texte</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+          </div>
+          <div class="body">
+            <h3>Relaunch einer Kanzlei-Website</h3>
+            <p>Komplette Seitentexte, Tonalität und Claim für einen modernen Auftritt.</p>
+          </div>
+        </article>
+
+        <article class="port">
+          <div class="thumb" style="background:linear-gradient(140deg,#7bd3c4,#3fb59f)">
+            <span class="tag">Rede</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/></svg>
+          </div>
+          <div class="body">
+            <h3>Festrede zum Firmenjubiläum</h3>
+            <p>Eine 20-minütige Rede für die Geschäftsführung – pointiert und persönlich.</p>
+          </div>
+        </article>
+
+        <article class="port">
+          <div class="thumb" style="background:linear-gradient(140deg,#c79be0,#a86fd0)">
+            <span class="tag">Ghostwriting</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+          </div>
+          <div class="body">
+            <h3>Sachbuch-Kapitel</h3>
+            <p>Co-Autorschaft für drei Kapitel eines Fachbuchs – veröffentlicht im Verlag.</p>
+          </div>
+        </article>
+
+        <article class="port">
+          <div class="thumb" style="background:linear-gradient(140deg,#f79ba9,#e56b7f)">
+            <span class="tag">Kolloquium</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h20v14H2z"/><path d="M8 21h8"/><path d="M12 17v4"/><path d="m7 10 3 3 5-6"/></svg>
+          </div>
+          <div class="body">
+            <h3>Bachelor-Kolloquium BWL</h3>
+            <p>Präsentationsaufbau und zwei Prüfungssimulationen – souverän bestanden.</p>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <section class="section reviews" id="bewertungen">
+    <div class="wrap">
+      <div class="section-head">
+        <h2>Google Bewertungen</h2>
+        <p>Authentische Bewertungen von zufriedenen Kund:innen – 5,0 / 5 Sterne bei 13 Google Reviews.</p>
+      </div>
+
+      <div class="rating-card">
+        <div class="rating-top">
+          <div>
+            <h3>Google Bewertungen</h3>
+            <span class="sub">Bewertungen sind nicht verifiziert</span>
+          </div>
+          <div class="rating-score">
+            <b>5,0</b>
+            <span class="stars">
+              <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01z"/></svg>
+              <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01z"/></svg>
+              <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01z"/></svg>
+              <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01z"/></svg>
+              <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01z"/></svg>
+            </span>
+            <div class="count">13 Bewertungen</div>
+          </div>
+        </div>
+        <div class="dist">
+          <div class="dist-row"><span>5</span><span class="bar"><i style="width:100%"></i></span></div>
+          <div class="dist-row"><span>4</span><span class="bar"><i style="width:0"></i></span></div>
+          <div class="dist-row"><span>3</span><span class="bar"><i style="width:0"></i></span></div>
+          <div class="dist-row"><span>2</span><span class="bar"><i style="width:0"></i></span></div>
+          <div class="dist-row"><span>1</span><span class="bar"><i style="width:0"></i></span></div>
+        </div>
+      </div>
+
+      <div class="review-grid" id="reviewGrid"></div>
+
+      <div class="center">
+        <a href="#kontakt" class="btn btn-dark">
+          <svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01z"/></svg>
+          Alle Google Bewertungen ansehen
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section contact" id="kontakt">
+    <div class="wrap">
+      <div class="section-head">
+        <h2>Kontakt</h2>
+        <p>Bereit für dein nächstes Textprojekt? Lass uns sprechen!</p>
+      </div>
+      <div class="contact-grid">
+        <div>
+          <h3>Schreib mir eine Nachricht</h3>
+          <form id="contactForm">
+            <div class="form-field">
+              <label for="cf-name">Name</label>
+              <input type="text" id="cf-name" name="name" placeholder="Dein Name" required>
+            </div>
+            <div class="form-field">
+              <label for="cf-email">E-Mail</label>
+              <input type="email" id="cf-email" name="email" placeholder="deine@email.de" required>
+            </div>
+            <div class="form-field">
+              <label for="cf-service">Leistung</label>
+              <select id="cf-service" name="service">
+                <option>Akademisches Korrekturlesen</option>
+                <option>Akademisches Lektorat</option>
+                <option>Ghostwriting</option>
+                <option>Vorbereitung auf das Bachelor-Kolloquium</option>
+                <option>Wissenschaftliche Begleitung via Zoom</option>
+                <option>Texten</option>
+              </select>
+            </div>
+            <div class="form-field">
+              <label for="cf-msg">Nachricht</label>
+              <textarea id="cf-msg" name="message" placeholder="Erzähl mir von deinem Projekt…" required></textarea>
+            </div>
+            <button type="submit" class="btn btn-dark" style="width:100%">Nachricht senden
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </button>
+            <p class="form-note" id="formNote">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>
+              Danke für deine Nachricht! Ich melde mich innerhalb von 24 Stunden bei dir.
+            </p>
+          </form>
+        </div>
+
+        <div>
+          <h3>Kontaktinformationen</h3>
+          <div class="contact-info">
+            <div class="info-item">
+              <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 5L2 7"/></svg></span>
+              <div><b>E-Mail</b><span>nina@wortkunst.de</span></div>
+            </div>
+            <div class="info-item">
+              <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg></span>
+              <div><b>Telefon</b><span>+49 178 174 1184</span></div>
+            </div>
+          </div>
+          <div class="zoom-box">
+            <h4>Zoom-Call buchen</h4>
+            <p>Für eine persönliche Beratung oder Kolloquiumsvorbereitung kannst du direkt einen Termin buchen.</p>
+            <a href="#kontakt" class="btn btn-blue" style="padding:13px 22px;font-size:.95rem">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+              Termin buchen
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <div class="brand">
+          <span class="mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19l7-7 3 3-7 7-3-3z"/><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"/><path d="M2 2l7.586 7.586"/><circle cx="11" cy="11" r="2"/></svg></span>
+          Wortkunst
+        </div>
+        <p class="about-txt">Professionelle Texte mit Leidenschaft und Kreativität von Nina Haberlandt.</p>
+        <div class="foot-contact-icons">
+          <a href="tel:+491781741184" aria-label="Anrufen" style="background:#22c55e"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg></a>
+          <a href="https://wa.me/491781741184" aria-label="WhatsApp" style="background:#25d366"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8z"/></svg></a>
+          <a href="mailto:nina@wortkunst.de" aria-label="E-Mail" style="background:#3b82f6"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 5L2 7"/></svg></a>
+        </div>
+      </div>
+      <div>
+        <h4>Leistungen</h4>
+        <ul>
+          <li><a href="#leistungen">Akademisches Korrekturlesen</a></li>
+          <li><a href="#leistungen">Akademisches Lektorat</a></li>
+          <li><a href="#leistungen">Ghostwriting</a></li>
+          <li><a href="#leistungen">Bachelor-Kolloquium</a></li>
+          <li><a href="#leistungen">Zoom-Unterstützung</a></li>
+          <li><a href="#leistungen">Texten</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Rechtliches</h4>
+        <ul>
+          <li><a href="#">Impressum</a></li>
+          <li><a href="#">Datenschutz</a></li>
+          <li><a href="#">AGB</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Social Media</h4>
+        <div class="foot-social">
+          <a href="#" aria-label="LinkedIn" style="background:#0a66c2"><svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9h4v12H3zM9 9h3.8v1.7h.05c.53-1 1.83-2.05 3.77-2.05C20.4 8.65 21 11 21 14.2V21h-4v-6c0-1.43-.03-3.27-2-3.27-2 0-2.3 1.56-2.3 3.17V21H9z"/></svg></a>
+          <a href="#" aria-label="Instagram" style="background:linear-gradient(135deg,#f9a8d4,#f26fb2)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><line x1="17.5" y1="6.5" x2="17.5" y2="6.5"/></svg></a>
+          <a href="#" aria-label="TikTok" style="background:#111"><svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M16 3c.3 2.3 1.9 4.1 4 4.4v3c-1.5 0-2.9-.5-4-1.3V15a6 6 0 1 1-6-6c.3 0 .7 0 1 .1v3.1a3 3 0 1 0 2 2.8V3z"/></svg></a>
+        </div>
+      </div>
+    </div>
+    <div class="foot-bottom">© 2026 Wortkunst by Nina Haberlandt. Alle Rechte vorbehalten.</div>
+  </div>
+</footer>
+
+<button class="chat-fab" id="chatFab" aria-label="Chat öffnen">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+</button>
+<div class="chat-panel" id="chatPanel" role="dialog" aria-label="Schnellkontakt">
+  <div class="chat-head">
+    <span class="av"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></span>
+    <div><b>Nina's KI-Assistentin</b><span>Online – antwortet automatisch</span></div>
+  </div>
+  <div class="chat-body" id="chatBody">
+    <div class="chat-msg">Hallo! Ich bin Nina's Assistentin. Wie kann ich dir heute helfen?</div>
+  </div>
+  <div class="chat-quick">
+    <a href="https://wa.me/491781741184">WhatsApp</a>
+    <a href="mailto:nina@wortkunst.de">E-Mail</a>
+    <a href="#kontakt" id="chatBook">Termin buchen</a>
+  </div>
+  <form class="chat-input" id="chatForm">
+    <input type="text" id="chatText" placeholder="Nachricht eingeben…" aria-label="Nachricht">
+    <button type="submit" aria-label="Senden"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></button>
+  </form>
+  <p class="chat-hint">Für konkrete Anfragen antworte ich am schnellsten per WhatsApp oder E-Mail.</p>
+</div>
+
+<script>
+(function(){
+  // sticky nav shadow
+  var nav=document.getElementById('nav');
+  var onScroll=function(){nav.classList.toggle('stuck',window.scrollY>10)};
+  onScroll();window.addEventListener('scroll',onScroll,{passive:true});
+
+  // mobile menu
+  var burger=document.getElementById('burger'),mm=document.getElementById('mobileMenu');
+  burger.addEventListener('click',function(){
+    var open=mm.classList.toggle('open');
+    burger.setAttribute('aria-expanded',open?'true':'false');
+  });
+  mm.querySelectorAll('a').forEach(function(a){a.addEventListener('click',function(){mm.classList.remove('open');burger.setAttribute('aria-expanded','false');});});
+
+  // reviews data (captured from the Google reviews)
+  var reviews=[
+    {n:'Jens',c:'#7c3aed',t:'vor 2 Monaten',x:'Von der ersten Kontaktaufnahme bis zum Projektabschluss lief alles wahnsinnig gut. Nina hat meine Thematik sofort verstanden und mich in allem, wo ich unsicher war, unterstützt.'},
+    {n:'René Baumgarten',c:'#2563eb',t:'vor 10 Monaten',x:'Ich bat Nina um Hilfe für meine Bachelorarbeit und kann sie wärmstens empfehlen. Sie ist sehr zuverlässig und hat großes Fachwissen – die Zusammenarbeit war unkompliziert und professionell.'},
+    {n:'M Y',c:'#16a34a',t:'vor 11 Monaten',x:'Ich bin mit dem Service von Wortkunst Nina Haberlandt sehr zufrieden. Sie ist sehr zuvorkommend, war immer gut erreichbar und ihre Unterstützung war professionell und hilfreich.'},
+    {n:'Oussama Fallouti',c:'#ea580c',t:'vor einem Jahr',x:'Ich bin äußerst zufrieden mit dem Service von Wortkunst Nina Haberlandt. Die Kommunikation war stets schnell und freundlich. Nina zeigte ein hohes Maß an Professionalität und Kompetenz.'},
+    {n:'A A',c:'#db2777',t:'vor einem Jahr',x:'Ich kann die Nina zu 100 % weiterempfehlen. Sie ist sehr hilfsbereit und konnte mir super bei meinem Anliegen helfen. Außerdem war sie immer gut erreichbar und sehr bemüht. Vielen Dank für deine tolle Arbeit!!'},
+    {n:'Richi',c:'#64748b',t:'vor einem Jahr',x:'Note 1,0 durch Nina Haberlandt! Wir haben Unterstützung für’s Studium benötigt und die Projektarbeit wurde mit Bravour gemeistert.'},
+    {n:'Jan-philipp Voltmer',c:'#dc2626',t:'vor 2 Jahren',x:'Nina leistet hervorragende Arbeit. Sie hat mir mit meiner Abschlussarbeit und mehreren Präsentationen geholfen und es ist einfach super gelaufen.'},
+    {n:'Conni Ina Sieg',c:'#f59e0b',t:'vor 2 Jahren',x:'Ich habe bereits 2x mit ihr zusammengearbeitet und ich komme definitiv wieder. Absolut zu empfehlen auch für jemanden mit Legasthenie / Lese-Rechtschreib-Schwierigkeiten.'},
+    {n:'Carsten Skop',c:'#0d9488',t:'vor 2 Jahren',x:'Danke für deine zuverlässige, sehr nette Art und deine echt guten Ausarbeitungen!!!'}
+  ];
+  var star='<svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01z"/></svg>';
+  var grid=document.getElementById('reviewGrid');
+  reviews.forEach(function(r){
+    var initials=r.n.split(' ').map(function(w){return w[0];}).slice(0,2).join('').toUpperCase();
+    var el=document.createElement('figure');
+    el.className='review';
+    el.innerHTML=
+      '<div class="who">'+
+        '<span class="av" style="background:'+r.c+'">'+initials+'</span>'+
+        '<div><b>'+r.n+'</b><span class="stars">'+star+star+star+star+star+'</span><span class="meta">'+r.t+'</span></div>'+
+      '</div>'+
+      '<p>'+r.x+'</p>';
+    grid.appendChild(el);
+  });
+
+  // contact form
+  var form=document.getElementById('contactForm'),note=document.getElementById('formNote');
+  form.addEventListener('submit',function(e){
+    e.preventDefault();
+    note.classList.add('show');
+    form.reset();
+  });
+
+  // chat widget
+  var fab=document.getElementById('chatFab'),panel=document.getElementById('chatPanel'),
+      cbody=document.getElementById('chatBody'),cform=document.getElementById('chatForm'),ctext=document.getElementById('chatText');
+  fab.addEventListener('click',function(){panel.classList.toggle('open');if(panel.classList.contains('open'))ctext.focus();});
+  document.getElementById('chatBook').addEventListener('click',function(){panel.classList.remove('open');});
+  cform.addEventListener('submit',function(e){
+    e.preventDefault();
+    var v=ctext.value.trim();if(!v)return;
+    var me=document.createElement('div');me.className='chat-msg me';me.textContent=v;cbody.appendChild(me);
+    ctext.value='';
+    setTimeout(function(){
+      var bot=document.createElement('div');bot.className='chat-msg';
+      bot.textContent='Danke für deine Nachricht! Nina meldet sich persönlich bei dir – am schnellsten erreichst du sie per WhatsApp (+49 178 174 1184) oder unter nina@wortkunst.de.';
+      cbody.appendChild(bot);cbody.scrollTop=cbody.scrollHeight;
+    },600);
+    cbody.scrollTop=cbody.scrollHeight;
+  });
+})();
+</script>
